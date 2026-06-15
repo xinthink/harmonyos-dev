@@ -1,0 +1,11 @@
+{
+  "name": "harmonyos-dev",
+  "version": "0.1.0",
+  "description": "HarmonyOS NEXT development toolkit — environment setup, ArkTS build/deploy/debug, and Cangjie native development with LSP code intelligence",
+  "author": {
+    "name": "Yingxin Wu",
+    "email": "yingxinwu.g@gmail.com"
+  },
+  "license": "MIT",
+  "keywords": ["harmonyos", "arkts", "cangjie", "deveco", "ohos", "lsp"]
+}

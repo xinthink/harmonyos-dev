@@ -1,0 +1,16 @@
+{
+  "_comment": "Cangjie LSP server configuration. Update the command and env paths to match your Cangjie SDK installation from ~/.harmonyosdev/config.json. Run `source scripts/envsetup.sh` to set CANGJIE_HOME before the LSPServer starts.",
+  "cangjie": {
+    "command": "~/.harmonyosdev/sdk/cangjie/tools/bin/LSPServer",
+    "extensionToLanguage": {
+      ".cj": "cangjie"
+    },
+    "env": {
+      "CANGJIE_HOME": "~/.harmonyosdev/sdk/cangjie",
+      "DYLD_LIBRARY_PATH": "~/.harmonyosdev/sdk/cangjie/tools/lib:${DYLD_LIBRARY_PATH}"
+    },
+    "transport": "stdio",
+    "startupTimeout": 10000,
+    "maxRestarts": 3
+  }
+}

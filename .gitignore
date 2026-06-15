@@ -1,0 +1,47 @@
+# ─── macOS ───────────────────────────────────────────────
+.DS_Store
+._*
+.AppleDouble
+.LSOverride
+.Spotlight-V100
+.Trashes
+
+# ─── IDE / Editor ────────────────────────────────────────
+# DevEco Studio / IntelliJ
+.idea/
+# VS Code: keep shared editor prefs; ignore machine-local files (launch.json, etc.)
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+
+# ─── HarmonyOS / ArkTS (hvigor + ohpm) ──────────────────
+# hvigor build cache (any level)
+.hvigor/
+# hvigor build output, e.g. entry/build/
+build/
+# ohpm dependencies (like node_modules)
+oh_modules/
+# hvigor-generated machine-local SDK paths
+local.properties
+# native (CMake) cache
+.cxx/
+# packaged app outputs
+*.hap
+*.hsp
+
+# ─── Cangjie / cjpm ──────────────────────────────────────
+# cjpm build output (like Rust target/)
+target/
+
+# ─── Tooling artifacts (this repo's setup workflow) ─────
+# Playwright MCP: downloaded SDK archives + console logs (multi-GB)
+.playwright-mcp/
+# language-server / IDE cache
+.cache/
+# Cangjie LSP log (workspace root)
+/log.txt
+# generic console logs
+*.log
+
+# ─── Node (bundled tooling, if ever vendored) ───────────
+node_modules/

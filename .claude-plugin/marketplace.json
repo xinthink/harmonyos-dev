@@ -1,0 +1,23 @@
+{
+  "name": "harmonyos-dev",
+  "description": "HarmonyOS NEXT development toolkit — environment setup, ArkTS build/deploy/debug, and Cangjie native development with LSP code intelligence for Claude Code",
+  "owner": {
+    "name": "Yingxin Wu",
+    "email": "yingxinwu.g@gmail.com"
+  },
+  "plugins": [
+    {
+      "name": "harmonyos-dev",
+      "version": "0.1.0",
+      "description": "HarmonyOS NEXT development toolkit — environment setup, ArkTS build/deploy/debug, and Cangjie native development with LSP code intelligence",
+      "author": {
+        "name": "Yingxin Wu",
+        "email": "yingxinwu.g@gmail.com"
+      },
+      "source": ".",
+      "category": "development",
+      "strict": false,
+      "homepage": "https://github.com/xinthink/harmonyos-dev"
+    }
+  ]
+}
