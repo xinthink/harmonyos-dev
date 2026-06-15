@@ -57,7 +57,7 @@ When `devecocli build` is needed but broken, use the raw hvigor wrapper:
 
 ```bash
 rm -rf .hvigor
-node "$(find /Applications -maxdepth 2 -name 'DevEco*Studio*.app' -type d 2>/dev/null | head -1)/Contents/tools/hvigor/bin/hvigorw.js" assembleHap --no-daemon
+node "$(find /Applications ~/Applications -maxdepth 2 -name 'DevEco*Studio*.app' -type d 2>/dev/null | head -1)/Contents/tools/hvigor/bin/hvigorw.js" assembleHap --no-daemon
 ```
 
 Or if `HVIGOR_HOME` is set in the environment:

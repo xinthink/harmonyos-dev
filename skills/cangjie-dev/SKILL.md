@@ -26,8 +26,11 @@ Check these before doing anything:
 Do this before running any Cangjie command:
 
 ```bash
-# If CANGJIE_HOME is not set, read it from config first:
-export CANGJIE_HOME=$(jq -r '.cangjie.home' ~/.harmonyosdev/config.json)
+# Read cangjie.home from config, fall back to conventional default
+export CANGJIE_HOME=$(jq -r '.cangjie.home // empty' ~/.harmonyosdev/config.json)
+if [ -z "$CANGJIE_HOME" ]; then
+  export CANGJIE_HOME="$HOME/.harmonyosdev/sdk/cangjie"
+fi
 
 # Source the bundled envsetup.sh (this repo's skill-provided version):
 source <repo-root>/skills/env-setup/scripts/envsetup.sh

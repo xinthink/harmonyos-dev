@@ -7,7 +7,7 @@ description: This skill should be used when setting up the HarmonyOS development
 
 ## Overview
 
-This skill handles one-time HarmonyOS environment setup. It discovers installed tools, writes configuration to `~/.harmonyosdev/config.json`, and verifies the toolchain works. All paths are stored in the config file -- no hardcoded paths anywhere.
+This skill handles one-time HarmonyOS environment setup. It discovers installed tools, writes configuration to `~/.harmonyosdev/config.json`, and verifies the toolchain works. All Cangjie SDK paths are read from the config file after setup. The conventional default install location is `~/.harmonyosdev/sdk/cangjie/`.
 
 `~/.harmonyosdev/` is the single root for all HarmonyOS-related local state. This skill does **not** modify `~/.zshrc` -- DevEco CLI auto-resolves everything through DevEco Studio's ToolProvider, and Cangjie environment variables are sourced per-invocation via the bundled `envsetup.sh`.
 
@@ -60,11 +60,13 @@ Ask the user:
 
 ### Step 4: Set Up Cangjie SDK
 
-If the user opted in, discover the Cangjie SDK. Check these common locations in order:
+If the user opted in, discover the Cangjie SDK. Check these locations in order:
 
-1. `~/.harmonyosdev/sdk/cangjie/`
-2. `~/ws/sdk/cangjie/`
-3. `~/ws/sdk/CangjieSDKs/cangjie-*-darwin_aarch64/`
+1. `~/.harmonyosdev/config.json` — check if `cangjie.home` is already configured from a previous setup
+2. `~/.harmonyosdev/sdk/cangjie/` — the conventional default location
+3. Ask the user where their Cangjie SDK is installed
+
+The config file is the source of truth — if `cangjie.home` is set and the path exists, use it directly.
 
 For each candidate, look for `./bin/cjc` (the Cangjie compiler). Verify with:
 
@@ -86,7 +88,7 @@ If Cangjie SDK is **not found** anywhere, instruct the user:
 > 1. Go to https://cangjie-lang.cn/download
 > 2. Download the **macOS arm64** package -- choose the **plain desktop** version (no ohos/ios/android suffix)
 > 3. Extract the tarball. It creates a top-level `cangjie/` directory.
-> 4. Move the contents into `~/.harmonyosdev/sdk/cangjie/`:
+> 4. Move the contents into your Cangjie SDK directory. The convention is `~/.harmonyosdev/sdk/cangjie/` (this is the default that the config file falls back to), but you can install anywhere — the config file records the actual path:
 >    ```bash
 >    mkdir -p ~/.harmonyosdev/sdk/cangjie
 >    # If the tarball creates a cangjie/ directory:
@@ -230,15 +232,17 @@ DevEco Studio >= 6.1.0 must be installed on macOS at `/Applications/DevEco Studi
 
 ### "cjc not found"
 
-Cangjie SDK is not installed or not in a recognized location. Check these paths:
+Cangjie SDK is not installed or not at the configured path. Check the config file first:
 
 ```bash
-ls ~/.harmonyosdev/sdk/cangjie/bin/cjc
-ls ~/ws/sdk/cangjie/bin/cjc
-ls ~/ws/sdk/CangjieSDKs/cangjie-*-darwin_aarch64/bin/cjc
+# Read cangjie.home from config, falling back to the conventional default
+CJ_HOME=$(jq -r '.cangjie.home // "~/.harmonyosdev/sdk/cangjie"' ~/.harmonyosdev/config.json | sed "s|^~|$HOME|")
+ls "$CJ_HOME/bin/cjc"
 ```
 
-If none exist, download the Cangjie SDK from https://cangjie-lang.cn/download and extract to `~/.harmonyosdev/sdk/cangjie/`.
+If the path is wrong or missing, update `cangjie.home` in `~/.harmonyosdev/config.json` or re-run the env-setup skill.
+
+If the config has no Cangjie section at all, download the Cangjie SDK from https://cangjie-lang.cn/download and extract to `~/.harmonyosdev/sdk/cangjie/` (or any path you prefer).
 
 ### "SDKROOT not set"
 

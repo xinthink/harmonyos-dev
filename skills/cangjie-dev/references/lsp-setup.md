@@ -11,7 +11,11 @@ All major LSP features are supported: definition, references, hover, document/wo
 Before the server can start, verify the SDK is intact:
 
 ```bash
-export CANGJIE_HOME=$(jq -r '.cangjie.home' ~/.harmonyosdev/config.json)
+# Read cangjie.home from config, fall back to conventional default
+export CANGJIE_HOME=$(jq -r '.cangjie.home // empty' ~/.harmonyosdev/config.json)
+if [ -z "$CANGJIE_HOME" ]; then
+  export CANGJIE_HOME="$HOME/.harmonyosdev/sdk/cangjie"
+fi
 ls "$CANGJIE_HOME/tools/bin/LSPServer"              # Must exist (24 MB)
 ls "$CANGJIE_HOME/tools/lib/libcangjie-lsp.dylib"   # Must exist (135 MB)
 export DYLD_LIBRARY_PATH="$CANGJIE_HOME/tools/lib:$CANGJIE_HOME/lib"
@@ -89,11 +93,45 @@ Should return JSON-RPC with `"Cangjie language server"`.
 
 ### Fallback: Shell wrapper
 
-If `.lsp.json` env doesn't resolve everything, point `command` at a wrapper:
+If `.lsp.json` env doesn't resolve everything, or if the Cangjie SDK is at a non-default location, point `command` at a wrapper:
 
 ```bash
 #!/bin/bash
-export CANGJIE_HOME=$(jq -r '.cangjie.home' ~/.harmonyosdev/config.json)
+export CANGJIE_HOME=$(jq -r '.cangjie.home // empty' ~/.harmonyosdev/config.json)
+if [ -z "$CANGJIE_HOME" ]; then
+  export CANGJIE_HOME="$HOME/.harmonyosdev/sdk/cangjie"
+fi
 export DYLD_LIBRARY_PATH="$CANGJIE_HOME/tools/lib:$CANGJIE_HOME/lib"
 exec "$CANGJIE_HOME/tools/bin/LSPServer" "$@"
 ```
+
+### Regenerating `.lsp.json` for Non-Default SDK Locations
+
+The shipped `.lsp.json` uses the conventional default path `~/.harmonyosdev/sdk/cangjie/`. If your `cangjie.home` in config points elsewhere, regenerate `.lsp.json` with the actual path:
+
+```bash
+CJ_HOME=$(jq -r '.cangjie.home // empty' ~/.harmonyosdev/config.json)
+if [ -z "$CJ_HOME" ]; then
+  CJ_HOME="$HOME/.harmonyosdev/sdk/cangjie"
+fi
+
+cat > .lsp.json << EOF
+{
+  "cangjie": {
+    "command": "$CJ_HOME/tools/bin/LSPServer",
+    "extensionToLanguage": {
+      ".cj": "cangjie"
+    },
+    "env": {
+      "CANGJIE_HOME": "$CJ_HOME",
+      "DYLD_LIBRARY_PATH": "$CJ_HOME/tools/lib:\${DYLD_LIBRARY_PATH}"
+    },
+    "transport": "stdio",
+    "startupTimeout": 10000,
+    "maxRestarts": 3
+  }
+}
+EOF
+```
+
+Restart Claude Code after regenerating for the LSP server to pick up the new path.

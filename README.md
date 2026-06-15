@@ -48,7 +48,7 @@ devecocli log --level E --tail 20 --follow
 ## Cangjie Setup (optional)
 
 ```bash
-# Download Cangjie SDK to ~/.harmonyosdev/sdk/cangjie/
+# Download Cangjie SDK to ~/.harmonyosdev/sdk/cangjie/ (default; can be customized in config.json)
 # Then source the bundled env script before use:
 source <plugin-path>/skills/env-setup/scripts/envsetup.sh
 

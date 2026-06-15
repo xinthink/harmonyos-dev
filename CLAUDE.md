@@ -39,7 +39,7 @@ harmonyos-dev/
 | `arkts-dev` | Building `.ets` files, deploying, debugging, emulator, logs |
 | `cangjie-dev` | Working with `.cj` files, cjpm, cjc, Cangjie LSP |
 
-All paths flow from `~/.harmonyosdev/config.json` — no hardcoded SDK paths.
+All Cangjie SDK paths are read from `~/.harmonyosdev/config.json` (`cangjie.home`), falling back to the conventional default `~/.harmonyosdev/sdk/cangjie/`. The `.lsp.json` file must be regenerated from config if the SDK is at a non-default location (see `cangjie-dev` skill).
 
 ## DevEco CLI (devecocli)
 

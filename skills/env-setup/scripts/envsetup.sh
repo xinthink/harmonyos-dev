@@ -10,8 +10,10 @@
 # This version does no shell detection at all, so it can't fail. It is safe to
 # source from bash, sh, or zsh. Requires CANGJIE_HOME to already be exported:
 #
-#   export CANGJIE_HOME=/ws/sdk/cangjie
-#   source "$HOME/ws/prj/hmos/hmos-env/skills/env-setup/scripts/envsetup.sh"
+#   export CANGJIE_HOME=$(jq -r '.cangjie.home // empty' ~/.harmonyosdev/config.json)
+#   # Fall back to conventional default if not configured:
+#   [ -z "$CANGJIE_HOME" ] && export CANGJIE_HOME="$HOME/.harmonyosdev/sdk/cangjie"
+#   source "<path-to-plugin>/skills/env-setup/scripts/envsetup.sh"
 
 # Nothing useful to do without a Cangjie SDK root.
 if [ -z "${CANGJIE_HOME:-}" ]; then
@@ -45,4 +47,4 @@ fi
 # `codesign` on every source. Those are one-time install fixes (already applied
 # here); they're omitted because codesign is slow to run on every shell start
 # and can prompt the keychain. Re-run them manually once after a fresh SDK
-# install if needed (see /ws/sdk/cangjie/envsetup.sh lines 46-47).
+# install if needed (see the Cangjie SDK's own envsetup.sh for reference).
