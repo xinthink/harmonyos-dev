@@ -31,6 +31,34 @@ harmonyos-dev/
 └── .claude-plugin/plugin.json
 ```
 
+## Plugin Development
+
+### Local testing
+```bash
+# Launch Claude Code with the local plugin (no marketplace needed)
+claude --plugin-dir /path/to/harmonyos-dev
+```
+
+### Adding the marketplace
+
+```bash
+# One-time: register this repo as a marketplace
+claude plugin marketplace add https://github.com/xinthink/harmonyos-dev.git
+```
+
+### Publishing updates
+
+```bash
+# 1. Bump version in BOTH files:
+#    - .claude-plugin/plugin.json        (plugin manifest)
+#    - .claude-plugin/marketplace.json    (marketplace index)
+# 2. Commit & push to main
+# 3. Users update with:
+#    claude plugin marketplace update harmonyos-dev
+#    claude plugin update harmonyos-dev
+#    (restart Claude Code to apply)
+```
+
 ## Skills
 
 | Skill | Invoke when |

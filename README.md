@@ -10,12 +10,33 @@ Claude Code plugin for HarmonyOS NEXT development — environment setup, ArkTS b
 
 ## Install
 
+### From marketplace
+
 ```bash
-# Install the plugin into Claude Code
+# 1. Add the harmonyos-dev marketplace (one-time)
+claude plugin marketplace add https://github.com/xinthink/harmonyos-dev.git
+
+# 2. Install the plugin
 claude plugin install harmonyos-dev
 
-# Install DevEco CLI (if not already installed)
+# 3. Install DevEco CLI (if not already installed)
 npm install -g @deveco/deveco-cli
+```
+
+### From local repo
+
+```bash
+# Useful for plugin development or trying unreleased changes
+claude --plugin-dir /path/to/harmonyos-dev
+```
+
+### Update
+
+```bash
+# Refresh marketplace index, then update the plugin
+claude plugin marketplace update harmonyos-dev
+claude plugin update harmonyos-dev
+# Restart Claude Code to apply the update
 ```
 
 On first use, the `env-setup` skill will guide you through environment setup — discovering tools, configuring Cangjie (optional), and writing `~/.harmonyosdev/config.json`.
